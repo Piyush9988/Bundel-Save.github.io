@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bundle & Save</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 16px;
+    }
+
+    .card {
+      background-color: #ffffff;
+      padding: 24px 20px 28px;
+      border-radius: 10px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .card h2 {
+      text-align: center;
+      margin-bottom: 18px;
+      font-size: 20px;
+      color: #1c3b2a;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .bundle-option {
+      border: 1.5px solid #d2d2d2;
+      border-radius: 8px;
+      padding: 12px 10px;
+      display: block;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+    }
+
+    .bundle-option-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .bundle-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .bundle-label-main {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .bundle-price {
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .bundle-discount {
+      font-size: 12px;
+      color: #1c7a3b;
+      font-weight: bold;
+      text-align: right;
+    }
+
+    .bundle-discount span {
+      display: block;
+    }
+
+    .bundle-option input[type="radio"] {
+      accent-color: #1c7a3b;
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Selected state */
+    .bundle-option.selected {
+      border-color: #1c7a3b;
+      box-shadow: 0 0 0 1px rgba(28, 122, 59, 0.25);
+      background-color: #f8fff9;
+    }
+
+    .bundle-option.selected .bundle-price {
+      color: #1c7a3b;
+    }
+
+    .bundle-details {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed #d2d2d2;
+      display: none;
+    }
+
+    .bundle-option.selected .bundle-details {
+      display: block;
+    }
+
+    .details-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 8px;
+      align-items: center;
+    }
+
+    .details-row span {
+      width: 18px;
+      font-size: 12px;
+    }
+
+    select {
+      flex: 1;
+      padding: 4px 6px;
+      font-size: 12px;
+      border-radius: 4px;
+      border: 1px solid #cccccc;
+      outline: none;
+    }
+
+    select:focus {
+      border-color: #1c7a3b;
+    }
+
+    .footer {
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+    }
+
+    .shipping {
+      color: #1c7a3b;
+      font-weight: 600;
+    }
+
+    .total {
+      font-weight: bold;
+    }
+
+    .add-to-cart {
+      margin-top: 16px;
+      width: 100%;
+      padding: 10px 0;
+      border: none;
+      border-radius: 6px;
+      background-color: #1c7a3b;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.05s;
+    }
+
+    .add-to-cart:active {
+      transform: scale(0.98);
+    }
+
+    .add-to-cart:hover {
+      background-color: #15572a;
+    }
+
+    /* Simple responsiveness */
+    @media (max-width: 360px) {
+      .bundle-option-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .bundle-discount {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Bundle &amp; Save</h2>
+
+    <form id="bundleForm">
+      <!-- 1 Pair -->
+      <label class="bundle-option" data-pairs="1" data-price="195">
+        <div class="bundle-option-header">
+          <div class="bundle-left">
+            <input type="radio" name="bundle" value="1">
+            <div>
+              <div class="bundle-label-main">1 Pair</div>
+              <div class="bundle-price">DKK 195.00</div>
+            </div>
+          </div>
+          <div class="bundle-discount">
+            <span>50% OFF</span>
+          </div>
+        </div>
+
+        <div class="bundle-details">
+          <div class="details-row">
+            <span>#1</span>
+            <select>
+              <option>Size</option>
+              <option>S</option>
+              <option>M</option>
+              <option>L</option>
+            </select>
+            <select>
+              <option>Colour</option>
+              <option>Black</option>
+              <option>White</option>
+              <option>Blue</option>
+            </select>
+          </div>
+        </div>
+      </label>
+
+      <!-- 2 Pair (Most Popular) -->
+      <label class="bundle-option" data-pairs="2" data-price="345">
+        <div class="bundle-option-header">
+          <div class="bundle-left">
+            <input type="radio" name="bundle" value="2" checked>
+            <div>
+              <div class="bundle-label-main">2 Pair</div>
+              <div class="bundle-price">DKK 345.00</div>
+            </div>
+          </div>
+          <div class="bundle-discount">
+            <span>Most Popular</span>
+            <span>40% OFF</span>
+          </div>
+        </div>
+
+        <div class="bundle-details">
+          <div class="details-row">
+            <span>#1</span>
+            <select>
+              <option>Size</option>
+              <option>S</option>
+              <option>M</option>
+              <option>L</option>
+            </select>
+            <select>
+              <option>Colour</option>
+              <option>Black</option>
+              <option>White</option>
+              <option>Blue</option>
+            </select>
+          </div>
+          <div class="details-row">
+            <span>#2</span>
+            <select>
+              <option>Size</option>
+              <option>S</option>
+              <option>M</option>
+              <option>L</option>
+            </select>
+            <select>
+              <option>Colour</option>
+              <option>Black</option>
+              <option>White</option>
+              <option>Blue</option>
+            </select>
+          </div>
+        </div>
+      </label>
+
+      <!-- 3 Pair -->
+      <label class="bundle-option" data-pairs="3" data-price="528">
+        <div class="bundle-option-header">
+          <div class="bundle-left">
+            <input type="radio" name="bundle" value="3">
+            <div>
+              <div class="bundle-label-main">3 Pair</div>
+              <div class="bundle-price">DKK 528.00</div>
+            </div>
+          </div>
+          <div class="bundle-discount">
+            <span>60% OFF</span>
+          </div>
+        </div>
+
+        <div class="bundle-details">
+          <div class="details-row">
+            <span>#1</span>
+            <select>
+              <option>Size</option>
+              <option>S</option>
+              <option>M</option>
+              <option>L</option>
+            </select>
+            <select>
+              <option>Colour</option>
+              <option>Black</option>
+              <option>White</option>
+              <option>Blue</option>
+            </select>
+          </div>
+          <div class="details-row">
+            <span>#2</span>
+            <select>
+              <option>Size</option>
+              <option>S</option>
+              <option>M</option>
+              <option>L</option>
+            </select>
+            <select>
+              <option>Colour</option>
+              <option>Black</option>
+              <option>White</option>
+              <option>Blue</option>
+            </select>
+          </div>
+          <div class="details-row">
+            <span>#3</span>
+            <select>
+              <option>Size</option>
+              <option>S</option>
+              <option>M</option>
+              <option>L</option>
+            </select>
+            <select>
+              <option>Colour</option>
+              <option>Black</option>
+              <option>White</option>
+              <option>Blue</option>
+            </select>
+          </div>
+        </div>
+      </label>
+    </form>
+
+    <div class="footer">
+      <div class="shipping">Free 2 Day Shipping</div>
+      <div class="total">
+        Total: DKK <span id="totalPrice">345.00</span>
+      </div>
+    </div>
+
+    <button class="add-to-cart" type="button">+ Add to Cart</button>
+  </div>
+
+  <script>
+    (function () {
+      var bundleOptions = document.querySelectorAll('.bundle-option');
+      var totalPriceElement = document.getElementById('totalPrice');
+
+      function updateSelection(selectedLabel) {
+        bundleOptions.forEach(function (option) {
+          if (option === selectedLabel) {
+            option.classList.add('selected');
+            var price = option.getAttribute('data-price');
+            totalPriceElement.textContent = Number(price).toFixed(2);
+            option.querySelector('input[type="radio"]').checked = true;
+          } else {
+            option.classList.remove('selected');
+          }
+        });
+      }
+
+      bundleOptions.forEach(function (option) {
+        var radio = option.querySelector('input[type="radio"]');
+        if (radio.checked) {
+          option.classList.add('selected');
+          totalPriceElement.textContent =
+            Number(option.getAttribute('data-price')).toFixed(2);
+        }
+
+        // Click anywhere on the label to select that bundle
+        option.addEventListener('click', function (e) {
+          // Avoid double firing when clicking the radio itself
+          if (e.target.tagName.toLowerCase() === 'select') return;
+          updateSelection(option);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
