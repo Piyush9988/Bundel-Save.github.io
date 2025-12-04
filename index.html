@@ -178,7 +178,6 @@
       background-color: #15572a;
     }
 
-    /* Simple responsiveness */
     @media (max-width: 360px) {
       .bundle-option-header {
         flex-direction: column;
@@ -234,7 +233,8 @@
       <label class="bundle-option" data-pairs="2" data-price="345">
         <div class="bundle-option-header">
           <div class="bundle-left">
-            <input type="radio" name="bundle" value="2" checked>
+            <!-- removed "checked" so it's NOT default -->
+            <input type="radio" name="bundle" value="2">
             <div>
               <div class="bundle-label-main">2 Pair</div>
               <div class="bundle-price">DKK 345.00</div>
@@ -348,7 +348,7 @@
     <div class="footer">
       <div class="shipping">Free 2 Day Shipping</div>
       <div class="total">
-        Total: DKK <span id="totalPrice">345.00</span>
+        Total: DKK <span id="totalPrice">0.00</span>
       </div>
     </div>
 
@@ -362,28 +362,23 @@
 
       function updateSelection(selectedLabel) {
         bundleOptions.forEach(function (option) {
+          var radio = option.querySelector('input[type="radio"]');
           if (option === selectedLabel) {
             option.classList.add('selected');
             var price = option.getAttribute('data-price');
             totalPriceElement.textContent = Number(price).toFixed(2);
-            option.querySelector('input[type="radio"]').checked = true;
+            radio.checked = true;
           } else {
             option.classList.remove('selected');
+            radio.checked = false;
           }
         });
       }
 
+      // All collapsed initially; open only when clicked
       bundleOptions.forEach(function (option) {
-        var radio = option.querySelector('input[type="radio"]');
-        if (radio.checked) {
-          option.classList.add('selected');
-          totalPriceElement.textContent =
-            Number(option.getAttribute('data-price')).toFixed(2);
-        }
-
-        // Click anywhere on the label to select that bundle
         option.addEventListener('click', function (e) {
-          // Avoid double firing when clicking the radio itself
+          // Let user interact with selects without collapsing/expanding
           if (e.target.tagName.toLowerCase() === 'select') return;
           updateSelection(option);
         });
